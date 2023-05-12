@@ -1,4 +1,4 @@
 // A trait for all sensors
 trait Sensor {
-  def generateReading: () => Reading
+  def generateReading: () => SensorReading
 }
