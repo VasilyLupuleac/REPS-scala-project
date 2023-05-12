@@ -1,4 +1,6 @@
 // A trait for all sensors
 trait Sensor {
-  def generateReading: () => SensorReading
+  val id: Int
+  def getName(): String
+  def getReading(): SensorReading
 }
