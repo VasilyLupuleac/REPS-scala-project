@@ -14,7 +14,7 @@ object ConsoleApp extends App {
   val option = scala.io.StdIn.readLine()
   option match{
     case 1 => {
-      println("How would you like to filter the data?\n" + "1. By hour\n" + "2. By day\n" + "3. By week\n" + "By month\n")
+      println("How would you like to filter the data?\n" + "1. By hour\n" + "2. By day\n" + "3. By week\n" + "By month\n" + "By month, in a specific year")
       println("What would you like to calculate?\n" + "Mean\n" + "Median\n" + "Mode\n" + "Range\n" + "Midrange\n")
     }  //filer the data
 
