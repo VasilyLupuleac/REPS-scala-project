@@ -6,13 +6,16 @@ trait Sensor {
   var lastReading: SensorReading
   def getName(): String
   def getValue(): Int
-  def createReading(sensorValue: Int): SensorReading =
+  private def createReading(sensorValue: Int): SensorReading = {
+    val dateTime = dateTimeProvider.getDateTime()
     SensorReading(
-      time = dateTimeProvider.getTime(),
-      date = dateTimeProvider.getDate(),
+      time = dateTime.toLocalTime(),
+      date = dateTime.toLocalDate(),
       value = sensorValue,
       sensorId = id
     )
+  }
+
   def saveReading() = storage.addReading(createReading(getValue()))
   def hasAlerts(): Boolean
 }
