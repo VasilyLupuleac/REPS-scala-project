@@ -2,5 +2,5 @@ trait SingleSourcePlant {
   val name: String
   val sensors: List[Sensor]
   val health: Int
-  def hasAlerts(): Boolean
+  def getAlertIDs() = sensors.filter(_.hasAlerts()).map(_.id)
 }
