@@ -9,12 +9,13 @@ trait Sensor {
   def getValue(): Int
   private def createReading(sensorValue: Int): SensorReading = {
     val dateTime = dateTimeProvider.getDateTime()
-    SensorReading(
+    lastReading = SensorReading(
       time = dateTime.toLocalTime(),
       date = dateTime.toLocalDate(),
       value = sensorValue,
       sensorId = id
     )
+    lastReading
   }
 
   def saveReading() = storage.addReading(createReading(getValue()))
