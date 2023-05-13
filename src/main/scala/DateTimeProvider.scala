@@ -1,6 +1,5 @@
-import java.time.{LocalDate, LocalTime}
+import java.time.LocalDateTime
 
 trait DateTimeProvider {
-  def getTime(): LocalTime
-  def getDate(): LocalDate
+  def getDateTime(): LocalDateTime
 }
