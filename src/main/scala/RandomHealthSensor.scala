@@ -15,7 +15,7 @@ class RandomHealthSensor(val id: Int, val plantName: String) extends Sensor {
     health = newHealth
   }
   override def getValue(): Int = {
-    if (rng.nextDouble() < decreaseProbability) {
+    if (rng.nextDouble() < decreaseProbability && health > 0) {
       health -= 1
     }
     if (health < lowerLimit)

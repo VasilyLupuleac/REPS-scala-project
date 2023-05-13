@@ -3,7 +3,6 @@ trait Sensor {
   val id: Int
   val dateTimeProvider: DateTimeProvider
   val storage: SensorDataStorage
-  //TODO update lastReading
   var lastReading: SensorReading
   def getName(): String
   def getValue(): Int
