@@ -1,0 +1,1 @@
+abstract class SolarPlant extends Plant {}
