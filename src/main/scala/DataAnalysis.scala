@@ -1,57 +1,31 @@
 import java.time.LocalDate
 import javax.xml.transform.Result
+import scala.math.{max, min}
 
-class DataAnalysis (val readings: List[SensorReading]) {
-
-
-  def filterData(filter: Int): List[SensorReading] = {
-    def filterByYear(list: List[SensorReading], year: Int) = list.filter(_.date.getYear.equals(year))
-    def filterByMonth(list: List[SensorReading], month: Int) = list.filter(_.date.getMonth.equals(month))
-    def filterByWeek(list: List[SensorReading], week: Int) = list.filter((r) => getWeekNumber(r.date) == week)
-    def filterByDay(list: List[SensorReading], day: Int) = list.filter(_.date.getDayOfMonth.equals(day))
-    def filterByHour(list: List[SensorReading], hour: Int) = list.filter(_.time.getHour.equals((hour)))
-
-    def getWeekNumber(date: LocalDate) = {
-      (date.getDayOfYear + 5 + LocalDate.ofYearDay(date.getYear, 1).getDayOfWeek.getValue) / 7
+object DataAnalysis {
+  implicit class calculateStatistics(readings: List[SensorReading]) {
+    val values = readings.map(_.value)
+    def calculateMean(): Option[Double] = readings match {
+      case Nil => None
+      case _ => Option(1.0 * values.sum / values.length)
     }
-
-    val year = 1000
-    val month = 1
-    val week = 1
-    val day = 1
-    val hour = 0
-
-    val filterOption = scala.io.StdIn.readLine()
-    filterOption match {
-      case "1" => filterByHour(readings, hour) //filer the data by hour
-      case "2" => filterByDay(readings, day) //filer the data by day
-      case "3" => filterByWeek(readings, week)//filer the data by week
-      case "4" => filterByYear(readings, year) //filer the data by year
-      case "5" => filterByMonth(filterByYear(readings, year), month) // filtering the data by month in a specific year
+    def calculateMedian(): Option[Int] = values.sorted.drop(values.length / 2).headOption
+    def calculateMode(): Option[Int] = readings match {
+      case Nil => None
+      case _ => Option(values.groupBy(x => x).reduce((a, b) =>
+        if (a._2.length < b._2.length) b else a)._1)
+    }
+    def calculateRange(): Option[(Int, Int)] = readings match {
+      case Nil => None
+      case _ => Option((
+        values.reduceLeft(min),
+        values.reduceLeft(max)
+        ))
+    }
+    def calculateMidrange(): Option[Double] = {
+      val range = calculateRange()
+      range.map(x => (x._1 + x._2) / 2.0)
     }
   }
-    def calculateMean() : Float = readings.map(_.value).sum
-
-    def calculateMedian(): Float = ???
-
-    def calculateMode(): Float = ???
-
-    def calculateRange(): Float = ???
-
-    def calculateMidrange(): Float = ???
-
-    def dataAnalysis(result: Int) : Float = {
-      val formulaOption = scala.io.StdIn.readLine()
-      formulaOption match {
-        case "1" => calculateMean()
-        case "2" => calculateMedian()
-        case "2" => calculateMode()
-        case "3" => calculateRange()
-        case "4" => calculateMidrange()
-      }
-
-
-    }
-
 
 }

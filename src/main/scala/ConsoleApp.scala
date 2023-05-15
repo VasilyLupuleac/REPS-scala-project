@@ -9,7 +9,7 @@ object ConsoleApp extends App {
 
   def mainMenu1(): Unit = {
     println("Check data\n" + "1. Check the cameras \n" + "2. Check the temperature in the building\n" + "3. Check the health \n" + "4. Check the energy sources\n" + "5. Exit")
-    val option = scala.io.StdIn.readLine()
+    val option = readLine()
     option match {
       case "1" => checkCameras()
       case "2" => checkBuildingTemperature()
@@ -23,7 +23,7 @@ object ConsoleApp extends App {
   def mainMenu2(): Unit = {
     println("Choose a type of energy source!\n" + "1. Solar panels\n" + "2. Wind turbines\n" + "3. Hydropower\n" + "4. Exit")
 
-    val energySource = scala.io.StdIn.readLine()
+    val energySource = readLine()
     energySource match {
       case "1" => solarPanelMenu()
       case "2" => windTurbineMenu()
@@ -38,7 +38,7 @@ object ConsoleApp extends App {
 
   def askForValue(prompt: String, inLimits: (Int) => Boolean): Int = {
     println(prompt)
-    val value = scala.io.StdIn.readLine()
+    val value = readLine()
     value.toIntOption match {
       case Some(intValue) =>
         if (inLimits(intValue)) {
@@ -57,7 +57,7 @@ object ConsoleApp extends App {
   def solarPanelMenu(): Unit = {
     println("Solar panel menu options:\n" + "1. Set solar panel angle\n" + "2. Solar tracking system\n" + "3. Cleaning solar panels\n" + "4. Back to main menu")
 
-    val option = scala.io.StdIn.readLine()
+    val option = readLine()
     option match {
       case "1" => setSolarPanelAngle()
       case "2" => solarTrackingSystem()
@@ -73,7 +73,7 @@ object ConsoleApp extends App {
   def windTurbineMenu(): Unit = {
     println("Wind turbine menu options:\n" + "1. Set rotor blade angle\n" + "2. Yaw control\n" + "3. Back to main menu")
 
-    val option = scala.io.StdIn.readLine()
+    val option = readLine()
     option match {
       case "1" => setRotorBladeAngle()
       case "2" => yawControl()
@@ -88,7 +88,7 @@ object ConsoleApp extends App {
   def hydroPowerMenu(): Unit = {
     println("Hydropower menu options:\n" + "1. Flow control\n" + "2. Gate opening\n" + "3. Water level\n" + "4. Back to main menu")
 
-    val option = scala.io.StdIn.readLine()
+    val option = readLine()
     option match {
       case "1" => flowControl()
       case "2" => gateOpening()
