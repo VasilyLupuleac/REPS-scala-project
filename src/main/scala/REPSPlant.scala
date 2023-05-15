@@ -1,14 +1,14 @@
 import java.util.{Timer, TimerTask}
+import SimpleIdProvider.nextId
 
 class REPSPlant extends Plant {
   override val name: String = "REPS Plant"
-  private val idProvider = SimpleIdProvider()
   // val solarPlant: SingleSourcePlant = ???
   // val hydroPlant: SingleSourcePlant = ???
   // val windPlant: SingleSourcePlant = ???
   private val executionTimer = new Timer()
-  private val healthSensor = new RandomHealthSensor(idProvider.nextId(), name)
-  private val energyOutputSensor: Sensor = new RandomHealthSensor(idProvider.nextId(), name)
+  private val healthSensor = new RandomHealthSensor(nextId(), name)
+  private val energyOutputSensor: Sensor = new RandomHealthSensor(nextId(), name)
   override def getEnergyOutputData(): List[SensorReading] = energyOutputSensor.storage.getAllReadings()
   override def getHealthData(): List[SensorReading] = healthSensor.storage.getAllReadings()
   override def getAlertIDs(): List[Int] = ???

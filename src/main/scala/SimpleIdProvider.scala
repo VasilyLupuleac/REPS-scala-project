@@ -1,11 +1,6 @@
-class SimpleIdProvider extends IdProvider {
-  import SimpleIdProvider.increment
-  def nextId() = increment()
-}
-
-object SimpleIdProvider {
+object SimpleIdProvider extends IdProvider {
   private var lastId = 0
-  def increment() = {
+  def nextId() = {
     lastId += 1
     lastId
   }
