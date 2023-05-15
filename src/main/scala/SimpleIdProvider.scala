@@ -1,7 +1,11 @@
-case class SimpleIdProvider() extends IdProvider {
-  private var lastId = 0
+class SimpleIdProvider extends IdProvider {
+  import SimpleIdProvider.increment
+  def nextId() = increment()
+}
 
-  override def nextId(): Int = {
+object SimpleIdProvider {
+  private var lastId = 0
+  def increment() = {
     lastId += 1
     lastId
   }
