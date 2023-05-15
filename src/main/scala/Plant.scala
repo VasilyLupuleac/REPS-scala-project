@@ -1,6 +1,6 @@
 trait Plant {
-  val dataStorages: List[SensorDataStorage]
   val name: String
-  val sensors: List[Sensor]
+  def getHealthData(): List[SensorReading]
+  def getEnergyOutputData(): List[SensorReading]
   def getAlertIDs(): List[Int]
 }
