@@ -1,11 +1,14 @@
+import java.time.format.DateTimeFormatter
 import scala.io.StdIn.readLine
 
 object ConsoleApp extends App {
-  println("Welcome to X power plant!")
 
+  println("Welcome to X power plant!")
+  val plant = new REPSPlant
+  plant.run()
 
   def mainMenu1(): Unit = {
-    println("Check data\n" + "1. Check the cameras \n" + "2. Check the temperature in the building\n" + "3.Check the health \n" + "4. Check the energy sources\n" + "5. Exit")
+    println("Check data\n" + "1. Check the cameras \n" + "2. Check the temperature in the building\n" + "3. Check the health \n" + "4. Check the energy sources\n" + "5. Exit")
     val option = scala.io.StdIn.readLine()
     option match {
       case "1" => checkCameras()
@@ -16,6 +19,7 @@ object ConsoleApp extends App {
     }
 
   }
+
   def mainMenu2(): Unit = {
     println("Choose a type of energy source!\n" + "1. Solar panels\n" + "2. Wind turbines\n" + "3. Hydropower\n" + "4. Exit")
 
@@ -32,14 +36,20 @@ object ConsoleApp extends App {
     }
   }
 
-  def askForValue(prompt: String): Int = {
+  def askForValue(prompt: String, inLimits: (Int) => Boolean): Int = {
     println(prompt)
     val value = scala.io.StdIn.readLine()
     value.toIntOption match {
-      case Some(intValue) => intValue
+      case Some(intValue) =>
+        if (inLimits(intValue)) {
+          intValue
+        } else {
+          println("The value exceeds the limits.")
+          askForValue(prompt, inLimits)
+        }
       case None => {
         println("Invalid input. Please enter a valid integer.")
-        askForValue(prompt)
+        askForValue(prompt, inLimits)
       }
     }
   }
@@ -92,40 +102,42 @@ object ConsoleApp extends App {
   }
 
   def setSolarPanelAngle(): Unit = {
-    val angle = askForValue("Enter the solar panel angle:")
+    val angle = askForValue("Enter the solar panel angle (0-60):", (x) => x <= 60 && x >= 0)
   }
 
   def solarTrackingSystem(): Unit = {
-    val movement = askForValue("Enter how much you want the solar panels to move:")
+    val direction = askForValue("Enter the direction the panels should face (0-359):", (x) => x < 360 && x >= 0)
   }
 
-
   def cleaningSolarPanels(): Unit = {
+    plant.solarPlant.cleanPanels()
     println("The panels are cleaned")
   }
 
   def setRotorBladeAngle(): Unit = {
-    val angle = askForValue("Enter the rotor blade angle:")
+    val angle = askForValue("Enter the rotor blade angle:", _ => true)
   }
 
   def yawControl(): Unit = {
-    val yaw = askForValue("Enter the yaw value:")
+    val yaw = askForValue("Enter the yaw value:", _ => true)
   }
 
 
   def flowControl(): Unit = {
-    val flow = askForValue("Enter the flow value:")
+    val flow = askForValue("Enter the flow value:", _ => true)
   }
+
   def gateOpening(): Unit = {
-    val gate = askForValue("Enter how much you want the gate to be opened:")
+    val gate = askForValue("Enter how much you want the gate to be opened:", _ => true)
   }
 
   def waterLevel(): Unit = {
-    val level = askForValue("Enter the water level:")
+    val level = askForValue("Enter the water level:", _ => true)
   }
 
   def exit(): Unit = {
     println("Exiting the program...")
+    plant.stop()
     System.exit(0)
   }
 
@@ -139,12 +151,17 @@ object ConsoleApp extends App {
 
   }
 
+  private val dateFormat = DateTimeFormatter.ISO_LOCAL_DATE
+  private val timeFormat = DateTimeFormatter.ofPattern("HH:mm")
+  def printEntry(r: SensorReading) =
+    println(s"Date: ${r.date.format(dateFormat)}, Time: ${r.time.format(timeFormat)}, Value: ${r.value}, ID: ${r.sensorId}")
   def checkHealth(): Unit = {
     println("Checking the health...")
+    plant.getHealthData().foreach(printEntry)
   }
 
   def checkEnergySources(): Unit = {
-   mainMenu2()
+    mainMenu2()
   }
 
 
