@@ -10,7 +10,7 @@ object ConsoleApp extends App {
     choice match {
       case "y" => {
         println("Showing the results")
-        plant.dataStorages.flatMap(_.getAllReadings()).foreach((r) => println(s"${r.time.toString()}: ${r.value}."))
+        plant.getHealthData().foreach((r) => println(s"${r.time.toString()}: ${r.value}."))
         ask()
       }
       case _ => plant.stop()

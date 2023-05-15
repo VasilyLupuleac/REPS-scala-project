@@ -3,8 +3,8 @@ import scala.util.Random
 
 class RandomHealthSensor(val id: Int, val plantName: String) extends Sensor {
   private var alerted = false
-  val lowerLimit = 80
-  override val dateTimeProvider: DateTimeProvider = new HourlyDateTimeProvider(LocalDateTime.now())
+  private val lowerLimit = 80
+  override val dateTimeProvider: DateTimeProvider = new HourlyDateTimeProvider()
   private val decreaseProbability = 0.2
   private val rng = new Random(id)
   private var health = 95
