@@ -9,10 +9,11 @@ class RandomHealthSensor(val id: Int, val plantName: String) extends Sensor {
   private val rng = new Random(id)
   private var health = 95
   override val storage: SensorDataStorage = new FileSensorStorage(plantName + "Health.txt")
-  override var lastReading = SensorReading(LocalTime.now(), LocalDate.now(), health, id)
+  override var lastReading = SensorReading(LocalTime.MIN, LocalDate.MIN, 0, id)
   override def getName() = plantName + " health sensor"
   def setHealth(newHealth: Int): Unit = {
-    health = newHealth
+    if (health >= 0)
+      health = newHealth
   }
   override def getValue(): Int = {
     if (rng.nextDouble() < decreaseProbability && health > 0) {
