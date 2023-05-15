@@ -23,11 +23,11 @@ class DataAnalysis (val readings: List[SensorReading]) {
 
     val filterOption = scala.io.StdIn.readLine()
     filterOption match {
-      case 1 => filterByHour(readings, hour) //filer the data by hour
-      case 2 => filterByDay(readings, day) //filer the data by day
-      case 3 => filterByWeek(readings, week)//filer the data by week
-      case 4 => filterByYear(readings, year) //filer the data by year
-      case 5 => filterByMonth(filterByYear(readings, year), month) // filtering the data by month in a specific year
+      case "1" => filterByHour(readings, hour) //filer the data by hour
+      case "2" => filterByDay(readings, day) //filer the data by day
+      case "3" => filterByWeek(readings, week)//filer the data by week
+      case "4" => filterByYear(readings, year) //filer the data by year
+      case "5" => filterByMonth(filterByYear(readings, year), month) // filtering the data by month in a specific year
     }
   }
     def calculateMean() : Float = readings.map(_.value).sum
@@ -35,6 +35,7 @@ class DataAnalysis (val readings: List[SensorReading]) {
     def calculateMedian(): Float = ???
 
     def calculateMode(): Float = ???
+
     def calculateRange(): Float = ???
 
     def calculateMidrange(): Float = ???
@@ -42,11 +43,11 @@ class DataAnalysis (val readings: List[SensorReading]) {
     def dataAnalysis(result: Int) : Float = {
       val formulaOption = scala.io.StdIn.readLine()
       formulaOption match {
-        case 1 => calculateMean()
-        case 2 => calculateMedian()
-        case 2 => calculateMode()
-        case 3 => calculateRange()
-        case 4 => calculateMidrange()
+        case "1" => calculateMean()
+        case "2" => calculateMedian()
+        case "2" => calculateMode()
+        case "3" => calculateRange()
+        case "4" => calculateMidrange()
       }
 
 
