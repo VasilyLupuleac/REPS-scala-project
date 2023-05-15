@@ -5,7 +5,7 @@ import scala.io.Source
 
 
 class FileSensorStorage(val filename: String) extends SensorDataStorage {
-  def toString(reading: SensorReading): String = s"$reading,=.id,${reading.date.format(DateTimeFormatter.ISO_LOCAL_DATE)},${reading.value}"
+  def toString(reading: SensorReading): String = s"${reading.time.format(DateTimeFormatter.ISO_LOCAL_TIME)} ${reading.date.format(DateTimeFormatter.ISO_LOCAL_DATE)} ${reading.value} ${reading.sensorId} "
 
   def toInt(s: String): Option[Int] = {
     try {
