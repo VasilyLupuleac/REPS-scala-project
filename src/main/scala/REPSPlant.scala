@@ -6,10 +6,10 @@ class REPSPlant extends Plant {
   // val hydroPlant: SingleSourcePlant = ???
   // val windPlant: SingleSourcePlant = ???
   private val executionTimer = new Timer()
-  override val healthSensor = new RandomHealthSensor(1, name)
-  override val dataStorages: List[SensorDataStorage] = List(healthSensor.storage)
-  override val energyOutputSensor: Sensor = new RandomHealthSensor(2, name)
-  override val sensors: List[Sensor] = List()
+  private val healthSensor = new RandomHealthSensor(1, name)
+  private val energyOutputSensor: Sensor = new RandomHealthSensor(2, name)
+  override def getEnergyOutputData(): List[SensorReading] = energyOutputSensor.storage.getAllReadings()
+  override def getHealthData(): List[SensorReading] = healthSensor.storage.getAllReadings()
   override def getAlertIDs(): List[Int] = ???
   def run() = {
     val checkSensors = new TimerTask {
