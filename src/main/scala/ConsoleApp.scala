@@ -6,7 +6,7 @@ object ConsoleApp extends App {
   plant.run()
   def ask(): Unit = {
     println("Do you want to see the health readings? (y/n)")
-    val choice = readLine().trim()
+    val choice = readLine()
     choice match {
       case "y" => {
         println("Showing the results")

@@ -5,7 +5,7 @@ class REPSPlant extends Plant {
   // val solarPlant: SingleSourcePlant = ???
   // val hydroPlant: SingleSourcePlant = ???
   // val windPlant: SingleSourcePlant = ???
-  val executionTimer = new Timer()
+  private val executionTimer = new Timer()
   override val healthSensor = new RandomHealthSensor(1, name)
   override val dataStorages: List[SensorDataStorage] = List(healthSensor.storage)
   override val energyOutputSensor: Sensor = new RandomHealthSensor(2, name)
