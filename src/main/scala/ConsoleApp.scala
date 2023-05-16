@@ -1,11 +1,15 @@
-import java.time.format.DateTimeFormatter
 import scala.io.StdIn.readLine
+import ConsoleDataProcessing.processAndPrint
+
 
 object ConsoleApp extends App {
 
   println("Welcome to X power plant!")
   val plant = new REPSPlant
   plant.run()
+
+  def inRange(lower: Int, upper: Int)(x: Int) =
+    x <= upper && x >= lower
 
   def mainMenu1(): Unit = {
     println("Check data\n" + "1. Check the cameras \n" + "2. Check the temperature in the building\n" + "3. Check the health \n" + "4. Check the energy sources\n" + "5. Exit")
@@ -102,11 +106,11 @@ object ConsoleApp extends App {
   }
 
   def setSolarPanelAngle(): Unit = {
-    val angle = askForValue("Enter the solar panel angle (0-60):", (x) => x <= 60 && x >= 0)
+    val angle = askForValue("Enter the solar panel angle (0-60):", inRange(0, 60))
   }
 
   def solarTrackingSystem(): Unit = {
-    val direction = askForValue("Enter the direction the panels should face (0-359):", (x) => x < 360 && x >= 0)
+    val direction = askForValue("Enter the direction the panels should face (0-359):", inRange(0, 359))
   }
 
   def cleaningSolarPanels(): Unit = {
@@ -151,20 +155,15 @@ object ConsoleApp extends App {
 
   }
 
-  private val dateFormat = DateTimeFormatter.ISO_LOCAL_DATE
-  private val timeFormat = DateTimeFormatter.ofPattern("HH:mm")
-  def printEntry(r: SensorReading) =
-    println(s"Date: ${r.date.format(dateFormat)}, Time: ${r.time.format(timeFormat)}, Value: ${r.value}, ID: ${r.sensorId}")
   def checkHealth(): Unit = {
     println("Checking the health...")
-    plant.getHealthData().foreach(printEntry)
+    processAndPrint(plant.getHealthData())
+
   }
 
   def checkEnergySources(): Unit = {
     mainMenu2()
   }
 
-
   mainMenu1()
-  mainMenu2()
 }

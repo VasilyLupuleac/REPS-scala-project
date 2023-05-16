@@ -1,5 +1,3 @@
-import java.time.LocalDate
-import javax.xml.transform.Result
 import scala.math.{max, min}
 
 object DataAnalysis {
@@ -29,3 +27,4 @@ object DataAnalysis {
   }
 
 }
+
