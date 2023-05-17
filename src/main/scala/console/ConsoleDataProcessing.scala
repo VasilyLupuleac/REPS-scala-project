@@ -1,4 +1,5 @@
 package console
+
 import ConsoleApp.{askForValue, inRange}
 import analysis.DataAnalysis._
 import analysis.SensorDataFilters._
@@ -20,9 +21,22 @@ object ConsoleDataProcessing {
       + "1. Group and aggregate the readings\n"
       + "2. Show all readings")
     val groupingOption = readLine()
+
     groupingOption match {
-      case "1" => printStatistics(groupReadings(readings))
-      case "2" => printAllReadings(readings)
+      case "1" => {
+        printStatistics(
+          sortData(
+            aggregateReadings(
+              groupReadings(readings)).toSeq,
+            (x: (String, String)) => x._1,
+            (x: (String, String)) => x._2)
+        )
+      }
+      case "2" => printAllReadings(sortData(
+        readings,
+        (r: SensorReading) => (dateFormat.format(r.date),
+          timeFormat.format(r.time)),
+        (r: SensorReading) => r.value))
       case _ => {
         println("Invalid choice. Please enter again.")
         printFiltered(readings)
@@ -33,11 +47,8 @@ object ConsoleDataProcessing {
   def printReading(r: SensorReading) =
     println(s"Date: ${r.date.format(dateFormat)}, Time: ${r.time.format(timeFormat)}, Value: ${r.value}")
 
-  def printAllReadings(readings: List[SensorReading]) =
+  def printAllReadings(readings: Seq[SensorReading]) =
     readings.foreach(printReading)
-
-  def printGroupedValues[A](groupedReadings: Map[String, A], label: String) =
-    groupedReadings.foreach(dv => s"Date: ${dv._1} $label: ${dv._2}")
 
   def askDay(): Int = askForValue("Enter the day number(1-31):", inRange(1, 31))
 
@@ -65,7 +76,7 @@ object ConsoleDataProcessing {
     }
   }
 
-  def printStatistics(groupedReadings: Map[String, List[SensorReading]]) {
+  def aggregateReadings(groupedReadings: Map[String, List[SensorReading]]): Map[String, String] = {
     println("How do you want to aggregate the data?\n"
       + "1. Calculate mean\n"
       + "2. Calculate median\n"
@@ -75,19 +86,43 @@ object ConsoleDataProcessing {
       + "Enter your selection:")
     val formulaOption = readLine()
 
-    def printGrouped[A](label: String,
-                        aggregatorFunc: List[SensorReading] => Option[A]): Unit =
-      groupedReadings.foreach(x => println(s"Date: ${x._1} $label: ${aggregatorFunc(x._2).getOrElse("No values")}"))
+    def aggregate[A](label: String,
+                     aggregatorFunc: List[SensorReading] => Option[A]): Map[String, String] =
+      groupedReadings.map(x => (x._1, label + ": " + aggregatorFunc(x._2).fold("No values")(_.toString)))
 
     formulaOption match {
-      case "1" => printGrouped("Mean", _.calculateMean())
-      case "2" => printGrouped("Median", _.calculateMedian())
-      case "3" => printGrouped("Mode", _.calculateMode())
-      case "4" => printGrouped("Range", _.calculateRange())
-      case "5" => printGrouped("Midrange", _.calculateMidrange())
+      case "1" => aggregate("Mean", _.calculateMean())
+      case "2" => aggregate("Median", _.calculateMedian())
+      case "3" => aggregate("Mode", _.calculateMode())
+      case "4" => aggregate("Range", _.calculateRange())
+      case "5" => aggregate("Midrange", _.calculateMidrange())
       case _ => {
         println("Invalid choice. Please enter again.")
-        printStatistics(groupedReadings)
+        aggregateReadings(groupedReadings)
+      }
+    }
+  }
+
+  def printStatistics(stats: Seq[(String, String)]) {
+    stats.foreach(x => println(s"Date: ${x._1} ${x._2}"))
+  }
+
+  def sortData[T, A <: Seq[T], T1, T2](data: A, sortDate: T => T1, sortVal: T => T2)
+                                      (implicit ordT1: Ordering[T1],
+                                       ordT2: Ordering[T2]): Seq[T] = {
+    println("How do you want to sort the data?\n"
+      + "1. Sort by date\n"
+      + "2. Sort by value\n"
+      + "3. Do not sort the data\n"
+      + "Enter your selection:")
+    val option = readLine()
+    option match {
+      case "1" => data.sortBy(sortDate)
+      case "2" => data.sortBy(sortVal)
+      case "3" => data
+      case _ => {
+        println("Invalid choice. Please enter again.")
+        sortData(data, sortDate, sortVal)
       }
     }
   }
