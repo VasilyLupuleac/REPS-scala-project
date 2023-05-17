@@ -1,4 +1,7 @@
-// A trait for all sensors
+package sensors
+
+import plant.DateTimeProvider
+
 trait Sensor {
   val id: Int
   val dateTimeProvider: DateTimeProvider

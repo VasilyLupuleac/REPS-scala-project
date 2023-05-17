@@ -1,3 +1,7 @@
+package plant
+
+import sensors.SensorReading
+
 trait Plant {
   val name: String
   def getHealthData(): List[SensorReading]

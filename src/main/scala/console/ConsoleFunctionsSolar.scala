@@ -1,4 +1,8 @@
-import ConsoleApp.{PlantData, askForValue, inRange, mainMenu}
+package console
+
+import ConsoleApp.{askForValue, inRange}
+import ConsoleApp.PlantData
+import plant.SolarPlant
 
 import scala.io.StdIn.readLine
 
@@ -45,15 +49,17 @@ object ConsoleFunctionsSolar {
         + "2. Energy output\n"
         + "0. Back to the main menu")
 
-    val option = readLine()
-    option match {
-      case "1" => solarPlant.checkHealth()
-      case "2" => solarPlant.checkOutput()
-      case "0" => ()
-      case _ => {
-        println("Invalid choice. Please try again.")
-        displaySolarData()
+      val option = readLine()
+      option match {
+        case "1" => solarPlant.checkHealth()
+        case "2" => solarPlant.checkOutput()
+        case "0" => ()
+        case _ => {
+          println("Invalid choice. Please try again.")
+          displaySolarData()
+        }
       }
     }
-  }}
+  }
 }
+

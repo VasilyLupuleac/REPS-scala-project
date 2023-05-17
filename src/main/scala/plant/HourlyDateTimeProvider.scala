@@ -1,3 +1,5 @@
+package plant
+
 import java.time.LocalDateTime
 
 class HourlyDateTimeProvider() extends DateTimeProvider {

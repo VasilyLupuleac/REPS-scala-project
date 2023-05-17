@@ -1,5 +1,8 @@
-import ConsoleApp.{askForValue}
+package console
+
+import ConsoleApp.askForValue
 import scala.io.StdIn.readLine
+
 
 object ConsoleFunctionsWind {
   def windTurbineAdjustmentMenu(): Unit = {

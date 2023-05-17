@@ -1,8 +1,11 @@
+package console
+
 import scala.io.StdIn.readLine
 import ConsoleDataProcessing.processAndPrint
 import ConsoleFunctionsSolar._
 import ConsoleFunctionsWind.windTurbineAdjustmentMenu
 import ConsoleFunctionsHydro.hydroPowerAdjustmentMenu
+import plant.{Plant, REPSPlant}
 
 object ConsoleApp extends App {
   println("Welcome to REPS power plant!")
@@ -126,3 +129,4 @@ object ConsoleApp extends App {
     println("Checking the temperature in the building...")
   }
 }
+

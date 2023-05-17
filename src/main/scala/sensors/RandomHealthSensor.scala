@@ -1,3 +1,7 @@
+package sensors
+
+import plant.{DateTimeProvider, HourlyDateTimeProvider}
+
 import java.time.{LocalDate, LocalDateTime, LocalTime}
 import scala.util.Random
 

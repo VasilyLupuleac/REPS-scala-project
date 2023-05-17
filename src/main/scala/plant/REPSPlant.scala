@@ -1,5 +1,8 @@
+package plant
+
 import java.util.{Timer, TimerTask}
 import SimpleIdProvider.nextId
+import sensors._
 
 class REPSPlant extends Plant {
   override val name: String = "REPS Plant"

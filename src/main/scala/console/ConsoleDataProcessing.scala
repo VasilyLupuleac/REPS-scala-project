@@ -1,8 +1,10 @@
-import ConsoleApp.{askForValue, inRange, mainMenu}
+package console
+import ConsoleApp.{askForValue, inRange}
+import analysis.DataAnalysis._
+import analysis.SensorDataFilters._
 
 import scala.io.StdIn.readLine
-import DataAnalysis._
-import SensorDataFilters.{ReadingToDateParts, applyFilters, dayEquals, monthEquals, yearEquals}
+import sensors.SensorReading
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -10,6 +12,7 @@ import java.time.format.DateTimeFormatter
 object ConsoleDataProcessing {
   private val dateFormat = DateTimeFormatter.ISO_LOCAL_DATE
   private val timeFormat = DateTimeFormatter.ofPattern("HH:mm")
+
   def processAndPrint(readings: List[SensorReading]): Unit = printFiltered(filterReadings(readings))
 
   def printFiltered(readings: List[SensorReading]): Unit = {
@@ -25,7 +28,6 @@ object ConsoleDataProcessing {
         printFiltered(readings)
       }
     }
-    mainMenu()
   }
 
   def printReading(r: SensorReading) =
@@ -121,5 +123,4 @@ object ConsoleDataProcessing {
       }
     }
   }
-
 }

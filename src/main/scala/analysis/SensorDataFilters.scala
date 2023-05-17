@@ -1,3 +1,6 @@
+package analysis
+
+import sensors.SensorReading
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalDateTime}
 
@@ -5,8 +8,11 @@ object SensorDataFilters {
   implicit class ReadingToDateParts(reading: SensorReading) {
     def hour: String = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(reading.date) +
       DateTimeFormatter.ofPattern(" HH:00").format(reading.time)
+
     def day: String = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(reading.date)
+
     def month: String = DateTimeFormatter.ofPattern("yyyy-MM").format(reading.date)
+
     def year: String = DateTimeFormatter.ofPattern("yyyy").format(reading.date)
   }
 

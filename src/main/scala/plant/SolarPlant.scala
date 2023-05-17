@@ -1,4 +1,7 @@
+package plant
+
 import SimpleIdProvider.nextId
+import sensors._
 
 class SolarPlant extends Plant {
   override val name: String = "Solar Plant"
