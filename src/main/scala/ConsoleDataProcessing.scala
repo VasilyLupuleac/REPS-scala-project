@@ -1,7 +1,9 @@
-import ConsoleApp.{askForValue, inRange}
+import ConsoleApp.{askForValue, inRange, mainMenu}
+
 import scala.io.StdIn.readLine
 import DataAnalysis._
 import SensorDataFilters.{ReadingToDateParts, applyFilters, dayEquals, monthEquals, yearEquals}
+
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -23,6 +25,7 @@ object ConsoleDataProcessing {
         printFiltered(readings)
       }
     }
+    mainMenu()
   }
 
   def printReading(r: SensorReading) =

@@ -4,8 +4,8 @@ import SimpleIdProvider.nextId
 class REPSPlant extends Plant {
   override val name: String = "REPS Plant"
   val solarPlant = new SolarPlant
-  // val hydroPlant: SingleSourcePlant = ???
-  // val windPlant: SingleSourcePlant = ???
+  // val hydroPlant: Plant = ???
+  // val windPlant: Plant = ???
   private val executionTimer = new Timer()
   private val healthSensor = new RandomHealthSensor(nextId(), name)
   private val energyOutputSensor: Sensor =

@@ -1,41 +1,95 @@
 import scala.io.StdIn.readLine
 import ConsoleDataProcessing.processAndPrint
-
+import ConsoleFunctionsSolar._
+import ConsoleFunctionsWind.windTurbineAdjustmentMenu
+import ConsoleFunctionsHydro.hydroPowerAdjustmentMenu
 
 object ConsoleApp extends App {
-
-  println("Welcome to X power plant!")
-  val plant = new REPSPlant
+  println("Welcome to REPS power plant!")
+  val plant = new REPSPlant()
   plant.run()
+  mainMenu()
+
+  implicit class PlantData(powerPlant: Plant) {
+    def checkHealth(): Unit =
+      processAndPrint(powerPlant.getHealthData())
+
+    def checkOutput(): Unit =
+      processAndPrint(powerPlant.getEnergyOutputData())
+  }
 
   def inRange(lower: Int, upper: Int)(x: Int) =
     x <= upper && x >= lower
 
-  def mainMenu1(): Unit = {
-    println("Check data\n" + "1. Check the cameras \n" + "2. Check the temperature in the building\n" + "3. Check the health \n" + "4. Check the energy sources\n" + "5. Exit")
+  def mainMenu(): Unit = {
+    println("What would you like to do?\n"
+      + "1. Look at the data\n"
+      + "2. Adjust plant parameters\n"
+      + "0. Exit the application")
+    val option = readLine()
+    option match {
+      case "1" => checkData()
+      case "2" => adjustParameters()
+      case "0" => exit()
+    }
+    mainMenu()
+  }
+
+  def checkData(): Unit = {
+    println("What data do you want to see?\n"
+      + "1. Check the cameras (Not implemented)\n"
+      + "2. Check the temperature in the building (Not implemented)\n"
+      + "3. Check the health \n"
+      + "4. Check the total energy output\n"
+      + "5. Check the energy sources\n"
+      + "0. Go to the main menu ")
     val option = readLine()
     option match {
       case "1" => checkCameras()
       case "2" => checkBuildingTemperature()
-      case "3" => checkHealth()
-      case "4" => checkEnergySources()
-      case "5" => exit()
+      case "3" => plant.checkHealth()
+      case "4" => plant.checkOutput()
+      case "5" => chooseDataSource()
+      case "0" => ()
     }
-
   }
 
-  def mainMenu2(): Unit = {
-    println("Choose a type of energy source!\n" + "1. Solar panels\n" + "2. Wind turbines\n" + "3. Hydropower\n" + "4. Exit")
+  def adjustParameters() = {
+    println("Choose the type of energy source:\n" +
+      "1. Solar panels\n" +
+      "2. Wind turbines\n" +
+      "3. Hydropower\n" +
+      "0. Go to the main menu")
 
     val energySource = readLine()
     energySource match {
-      case "1" => solarPanelMenu()
-      case "2" => windTurbineMenu()
-      case "3" => hydroPowerMenu()
-      case "4" => exit()
+      case "1" => plant.solarPlant.adjustSolarPlantParameters()
+      case "2" => hydroPowerAdjustmentMenu()
+      case "3" => windTurbineAdjustmentMenu()
+      case "0" => mainMenu()
       case _ => {
         println("Invalid choice. Please try again.")
-        mainMenu2()
+        chooseDataSource()
+      }
+    }
+  }
+
+  def chooseDataSource(): Unit = {
+    println("Choose the type of energy source:\n" +
+      "1. Solar panels\n" +
+      "2. Wind turbines (Not implemented)\n" +
+      "3. Hydropower (Not implemented)\n" +
+      "0. Go to the main menu")
+
+    val energySource = readLine()
+    energySource match {
+      case "1" => plant.solarPlant.displaySolarData()
+      case "0" => ()
+      case "2" => chooseDataSource()
+      case "3" => chooseDataSource()
+      case _ => {
+        println("Invalid choice. Please try again.")
+        chooseDataSource()
       }
     }
   }
@@ -58,87 +112,6 @@ object ConsoleApp extends App {
     }
   }
 
-  def solarPanelMenu(): Unit = {
-    println("Solar panel menu options:\n" + "1. Set solar panel angle\n" + "2. Solar tracking system\n" + "3. Cleaning solar panels\n" + "4. Back to main menu")
-
-    val option = readLine()
-    option match {
-      case "1" => setSolarPanelAngle()
-      case "2" => solarTrackingSystem()
-      case "3" => cleaningSolarPanels()
-      case "4" => mainMenu2()
-      case _ => {
-        println("Invalid choice. Please try again.")
-        solarPanelMenu()
-      }
-    }
-  }
-
-  def windTurbineMenu(): Unit = {
-    println("Wind turbine menu options:\n" + "1. Set rotor blade angle\n" + "2. Yaw control\n" + "3. Back to main menu")
-
-    val option = readLine()
-    option match {
-      case "1" => setRotorBladeAngle()
-      case "2" => yawControl()
-      case "3" => mainMenu2()
-      case _ => {
-        println("Invalid choice. Please try again.")
-        windTurbineMenu()
-      }
-    }
-  }
-
-  def hydroPowerMenu(): Unit = {
-    println("Hydropower menu options:\n" + "1. Flow control\n" + "2. Gate opening\n" + "3. Water level\n" + "4. Back to main menu")
-
-    val option = readLine()
-    option match {
-      case "1" => flowControl()
-      case "2" => gateOpening()
-      case "3" => waterLevel()
-      case "4" => mainMenu2()
-      case _ => {
-        println("Invalid choice. Please try again.")
-        hydroPowerMenu()
-      }
-    }
-  }
-
-  def setSolarPanelAngle(): Unit = {
-    val angle = askForValue("Enter the solar panel angle (0-60):", inRange(0, 60))
-  }
-
-  def solarTrackingSystem(): Unit = {
-    val direction = askForValue("Enter the direction the panels should face (0-359):", inRange(0, 359))
-  }
-
-  def cleaningSolarPanels(): Unit = {
-    plant.solarPlant.cleanPanels()
-    println("The panels are cleaned")
-  }
-
-  def setRotorBladeAngle(): Unit = {
-    val angle = askForValue("Enter the rotor blade angle:", _ => true)
-  }
-
-  def yawControl(): Unit = {
-    val yaw = askForValue("Enter the yaw value:", _ => true)
-  }
-
-
-  def flowControl(): Unit = {
-    val flow = askForValue("Enter the flow value:", _ => true)
-  }
-
-  def gateOpening(): Unit = {
-    val gate = askForValue("Enter how much you want the gate to be opened:", _ => true)
-  }
-
-  def waterLevel(): Unit = {
-    val level = askForValue("Enter the water level:", _ => true)
-  }
-
   def exit(): Unit = {
     println("Exiting the program...")
     plant.stop()
@@ -147,23 +120,9 @@ object ConsoleApp extends App {
 
   def checkCameras(): Unit = {
     println("Checking the cameras...")
-
   }
 
   def checkBuildingTemperature(): Unit = {
     println("Checking the temperature in the building...")
-
   }
-
-  def checkHealth(): Unit = {
-    println("Checking the health...")
-    processAndPrint(plant.getHealthData())
-
-  }
-
-  def checkEnergySources(): Unit = {
-    mainMenu2()
-  }
-
-  mainMenu1()
 }
