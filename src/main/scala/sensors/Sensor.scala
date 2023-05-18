@@ -1,4 +1,5 @@
-// A trait for all sensors
+package sensors
+
 trait Sensor {
   val id: Int
   val dateTimeProvider: DateTimeProvider

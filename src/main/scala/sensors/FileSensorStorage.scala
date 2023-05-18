@@ -1,3 +1,5 @@
+package sensors
+
 import java.io.{BufferedWriter, FileWriter}
 import java.time.{LocalDate, LocalTime}
 import java.time.format.DateTimeFormatter

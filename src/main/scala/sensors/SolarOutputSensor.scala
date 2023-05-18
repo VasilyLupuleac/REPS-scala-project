@@ -1,3 +1,5 @@
+package sensors
+
 import java.time.{LocalDate, LocalTime}
 import scala.util.Random
 
@@ -26,7 +28,8 @@ class SolarOutputSensor(val id: Int) extends Sensor {
 
   override def getValue(): Int = {
     val value = (700 + rng.nextInt(direction + 50) - 3 * rng.nextInt(angle)) * (100 - contamination) / 100
-    contamination += rng.nextInt(5)
+    if (contamination < 100)
+      contamination += rng.nextInt(1)
     if (contamination > contaminationLimit)
       alerted = true
     else if (value > upperLimit || value < lowerLimit)

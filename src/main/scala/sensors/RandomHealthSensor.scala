@@ -1,3 +1,5 @@
+package sensors
+
 import java.time.{LocalDate, LocalDateTime, LocalTime}
 import scala.util.Random
 

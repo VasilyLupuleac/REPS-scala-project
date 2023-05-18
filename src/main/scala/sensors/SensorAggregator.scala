@@ -1,3 +1,5 @@
+package sensors
+
 import java.time.{LocalDate, LocalTime}
 
 class SensorAggregator(val name: String,
