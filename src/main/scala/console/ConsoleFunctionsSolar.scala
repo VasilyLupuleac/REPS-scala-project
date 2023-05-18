@@ -13,14 +13,16 @@ object ConsoleFunctionsSolar {
         + "1. Set solar panel angle\n"
         + "2. Solar tracking system\n"
         + "3. Clean solar panels\n"
-        + "4. Back to the main menu")
+        + "4. Repair the solar panels\n"
+        + "0. Back to the main menu")
 
       val option = readLine()
       option match {
         case "1" => setSolarPanelAngle()
         case "2" => solarTrackingSystem()
         case "3" => cleanSolarPanels()
-        case "4" => ()
+        case "4" => repairPlant()
+        case "0" => ()
         case _ => {
           println("Invalid choice. Please try again.")
           adjustSolarPlantParameters()
@@ -42,7 +44,10 @@ object ConsoleFunctionsSolar {
       solarPlant.cleanPanels()
       println("The panels are cleaned")
     }
-
+    def repairPlant(): Unit = {
+      solarPlant.repair()
+      println("The solar plant is repaired.")
+    }
     def displaySolarData(): Unit = {
       println("What data do you want to see?\n"
         + "1. Health\n"

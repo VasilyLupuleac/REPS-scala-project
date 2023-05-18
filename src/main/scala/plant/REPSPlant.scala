@@ -18,15 +18,14 @@ class REPSPlant extends Plant {
       List(solarPlant.energyOutputSensor),
       (_.foldLeft(0)((x, y) => x + y))
     )
+
+  override val sensors: List[Sensor] = solarPlant.sensors ++ List(energyOutputSensor, healthSensor)
   override def getEnergyOutputData(): List[SensorReading] = energyOutputSensor.storage.getAllReadings()
   override def getHealthData(): List[SensorReading] = healthSensor.storage.getAllReadings()
-  override def getAlertIDs(): List[Int] = ???
   def run() = {
     val checkSensors = new TimerTask {
       def run() = {
-        solarPlant.checkSensors()
-        healthSensor.saveReading()
-        energyOutputSensor.saveReading()
+        sensors.foreach(_.saveReading())
       }
     }
     executionTimer.schedule(checkSensors, 1000L, 5000L)

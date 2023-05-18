@@ -1,4 +1,4 @@
-package plant
+package sensors
 
 import java.time.LocalDateTime
 

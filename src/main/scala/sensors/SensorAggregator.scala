@@ -1,7 +1,5 @@
 package sensors
 
-import plant.{DateTimeProvider, HourlyDateTimeProvider}
-
 import java.time.{LocalDate, LocalTime}
 
 class SensorAggregator(val name: String,
